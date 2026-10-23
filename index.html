@@ -1,1 +1,418 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Terokai Kampung Syair: dengar contoh, berlatih dan rakam persembahan sendiri dalam dunia 3D dan VR.">
+  <title>Kampung Syair VR</title>
+  <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+  <style>
+    :root{--ink:#153e3b;--teal:#126e65;--cream:#faf7ef;--gold:#e3aa48;--red:#b6383e;--line:#dddcd1}
+    *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:15px/1.55 system-ui,sans-serif}button,input,textarea{font:inherit}button,a.download{border:0;border-radius:10px;padding:11px 16px;background:var(--teal);color:white;cursor:pointer;font-weight:650;text-decoration:none;display:inline-block}button:hover,a.download:hover{filter:brightness(1.1)}button:disabled{opacity:.45;cursor:not-allowed}button.secondary{background:#e9efe8;color:var(--ink)}button.danger{background:var(--red)}button:focus-visible,input:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid #df8e23;outline-offset:3px}header{padding:17px 26px;display:flex;gap:20px;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--line)}.brand{font-weight:800;font-size:21px;letter-spacing:-.6px}.brand small{font-weight:500;font-size:12px;display:block;letter-spacing:1.3px;text-transform:uppercase}.pupil{display:flex;gap:8px;align-items:center}.pupil input{width:90px;border:1px solid #cad5cc;border-radius:8px;padding:9px;color:var(--ink)}main{display:grid;grid-template-columns:minmax(310px,360px) 1fr;min-height:680px;gap:0}.sidebar{padding:24px;border-right:1px solid var(--line);background:#fff}.eyebrow{font-size:11px;letter-spacing:1.6px;font-weight:800;color:var(--teal);text-transform:uppercase}h1{font-size:31px;line-height:1.2;margin:8px 0 12px;letter-spacing:-1px}h2{font-size:19px;margin:16px 0 9px}p{margin:10px 0}.muted{color:#607570;font-size:13px}.stations{display:grid;gap:7px;margin:19px 0}.stations button{background:var(--cream);color:var(--ink);text-align:left;border:1px solid var(--line)}.stations button[aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}.poem{white-space:pre-line;background:var(--cream);border-left:3px solid var(--gold);padding:13px;font-size:14px;line-height:1.85;margin:15px 0}.controls{display:flex;gap:7px;flex-wrap:wrap}.controls button{flex:1;white-space:nowrap}.notice{background:#edf4ef;border-radius:10px;padding:12px;margin:14px 0;font-size:13px;min-height:65px}.rec-line{display:flex;align-items:center;justify-content:space-between;margin:15px 0}.rec-line strong{font-size:27px;font-variant-numeric:tabular-nums}.dot{width:9px;height:9px;border-radius:50%;background:#8d9e95;display:inline-block;margin-right:6px}.recording .dot{background:#d94141;animation:pulse 1s infinite}@keyframes pulse{50%{opacity:.3}}.viewport{position:relative;min-height:680px;background:#b2ded5;overflow:hidden}.world-badge{position:absolute;z-index:2;left:19px;top:18px;border-radius:30px;background:#ffffffed;padding:8px 14px;font-size:12px;font-weight:700;pointer-events:none}.world-help{position:absolute;z-index:2;bottom:18px;left:18px;right:90px;background:#153e3bd9;color:#fff;border-radius:10px;padding:10px 13px;font-size:12px;pointer-events:none}a-scene{width:100%;height:100%;position:absolute;inset:0}section.library{padding:27px;max-width:1240px;margin:auto}.library-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin:15px 0}.record-card{background:white;border:1px solid var(--line);border-radius:14px;padding:17px}.record-card h3{font-size:15px;margin:0}.record-card audio{width:100%;height:38px;margin:10px 0}.record-card footer{display:flex;align-items:center;justify-content:space-between;gap:7px}.record-card footer button{padding:8px 11px;background:#f7eae8;color:#8b3334;font-size:12px}a.download{padding:8px 11px;font-size:12px}.empty{border:1px dashed #b8c8bb;border-radius:12px;padding:20px;text-align:center;width:100%;color:#607570}.materials{border:1px solid var(--line);padding:15px;border-radius:12px;background:#fff;margin-top:25px}.materials summary{cursor:pointer;font-weight:700}.materials label{display:block;margin-top:13px}.materials input[type=file],.materials textarea{display:block;margin:8px 0;width:100%}.materials textarea{padding:10px;border:1px solid #bacabd;border-radius:8px;min-height:125px}.materials .controls{margin-top:13px}.page-foot{font-size:12px;padding:0 27px 25px;color:#607570;text-align:center}.visually-hidden{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}@media(max-width:820px){header{padding:13px 17px}.brand{font-size:18px}.pupil{font-size:12px}.pupil input{width:68px}main{grid-template-columns:1fr;display:flex;flex-direction:column}.viewport{min-height:420px;order:-1}.sidebar{border-right:0;padding:20px}.stations{grid-template-columns:repeat(3,1fr)}.stations button{padding:10px 7px;font-size:12px;text-align:center}h1{font-size:27px}section.library{padding:20px}.world-help{font-size:11px}.library-head{align-items:flex-start;flex-direction:column}}
+    .viewport{height:calc(100vh - 86px);max-height:900px;position:sticky;top:0;align-self:start}.fallback{height:100%;padding:70px 25px 90px;display:flex;flex-direction:column;justify-content:center;text-align:center;background:linear-gradient(#c7e9e5 55%,#adc49a 55%);gap:20px}.fallback[hidden]{display:none}.fallback h2{font-size:28px}.map-stations{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}.map-stations button{width:175px;min-height:150px;border-radius:12px;background:#f9f0d9;color:var(--ink);border-bottom:9px solid #aa8257;box-shadow:0 8px 0 #5d79582b}.roof{display:block;width:110px;height:45px;background:#d6a441;clip-path:polygon(50% 0,100% 100%,0 100%);margin:0 auto 16px}.roof.green{background:#4b9a8e}.roof.red{background:#c56b59}@media(max-width:820px){.viewport{height:420px;min-height:420px;position:relative;max-height:none}.fallback{padding:45px 15px 65px;gap:5px}.fallback h2{font-size:21px}.map-stations{gap:8px}.map-stations button{width:100px;min-height:115px;padding:10px 5px;font-size:12px}.roof{width:80px;height:32px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">Kampung Syair <small>Dengar · Berlatih · Persembahkan</small></div>
+  <label class="pupil" for="pupil">Kod murid <input id="pupil" value="M01" maxlength="20" autocomplete="off" spellcheck="false"></label>
+</header>
+<main>
+  <aside class="sidebar">
+    <div class="eyebrow">Jelajah seni bahasa</div>
+    <h1>Suara anda,<br>cerita kita.</h1>
+    <p class="muted">Pilih stesen, terokai kampung dan beranikan diri melagukan syair.</p>
+    <nav class="stations" aria-label="Pilihan stesen">
+      <button data-go="dengar" aria-pressed="true">01 &nbsp; Wakaf Dengar</button>
+      <button data-go="latihan" aria-pressed="false">02 &nbsp; Anjung Latihan</button>
+      <button data-go="pentas" aria-pressed="false">03 &nbsp; Pentas Syair</button>
+    </nav>
+    <h2 id="stationTitle">Wakaf Dengar</h2>
+    <p class="muted" id="instruction">Dengar contoh daripada guru sambil membaca teks syair.</p>
+    <div class="poem" id="poem"></div>
+    <div class="controls">
+      <button id="samplePlay">Dengar contoh</button><button id="audioStop" class="secondary">Henti audio</button>
+    </div>
+    <p class="muted" id="sampleName">Audio contoh belum ditambah. Buka Tetapan bahan di bawah.</p>
+    <div class="rec-line" id="recLine"><span id="recState"><i class="dot"></i>Belum merakam</span><strong id="timer">00:00</strong></div>
+    <div class="controls"><button id="record" disabled>Rakam suara</button><button id="stop" class="danger" disabled>Henti</button></div>
+    <div class="controls" style="margin-top:8px"><button id="latest" class="secondary" disabled>Dengar rakaman terbaru</button></div>
+    <div class="notice" id="status" role="status" aria-live="polite">Mulakan di Wakaf Dengar. Kemudian pilih Anjung Latihan untuk merakam suara.</div>
+    <div class="controls"><button id="mic" class="secondary">Benarkan mikrofon</button></div>
+    <p class="muted" id="micInfo">Untuk VR, benarkan mikrofon dahulu sebelum memakai headset. Had satu rakaman: 3 minit.</p>
+  </aside>
+  <div class="viewport">
+    <div class="world-badge" id="worldBadge">01 / Wakaf Dengar</div>
+    <div id="sceneMount"></div>
+    <div class="fallback" id="flatMap" hidden>
+      <div><div class="eyebrow">Peta Kampung Syair</div><h2>Tiga tempat, satu perjalanan.</h2></div>
+      <div class="map-stations"><button data-go="dengar"><span class="roof"></span>Wakaf Dengar</button><button data-go="latihan"><span class="roof green"></span>Anjung Latihan</button><button data-go="pentas"><span class="roof red"></span>Pentas Syair</button></div>
+      <p class="muted">Paparan 2D aktif kerana dunia 3D tidak dapat dimulakan dalam pelayar ini.<br>Pilih stesen untuk meneruskan aktiviti.</p>
+    </div>
+    <template id="worldMarkup"><a-scene id="world" embedded renderer="antialias:true;colorManagement:true" background="color:#c7e9e5" fog="type:linear;color:#c7e9e5;near:25;far:65" loading-screen="dotsColor:#126e65;backgroundColor:#c7e9e5" xr-mode-ui="enabled:true">
+      <a-entity light="type:ambient;intensity:1;color:#f5f6ed"></a-entity>
+      <a-entity light="type:directional;intensity:1.1;color:#fff2d5" position="-5 12 8"></a-entity>
+      <a-plane rotation="-90 0 0" width="140" height="140" color="#91b98c"></a-plane>
+      <a-circle rotation="-90 0 0" radius="12" color="#b7c69c" position="0 .015 -4" segments="48"></a-circle>
+      <a-box position="0 .025 -2" width="3" height=".03" depth="24" color="#e9d4a6"></a-box>
+      <a-box position="0 .035 2.1" width="31" height=".03" depth="2.6" color="#e9d4a6"></a-box>
+      <a-entity id="village"></a-entity>
+      <a-entity id="rig" position="-11 0 6" village-floor>
+        <a-camera id="view" position="0 1.65 0" wasd-controls="acceleration:18" look-controls="pointerLockEnabled:false" cursor="rayOrigin:mouse" raycaster="objects:.hit;far:35"></a-camera>
+        <a-entity laser-controls="hand:left" raycaster="objects:.hit;far:35" line="color:#e3aa48"></a-entity>
+        <a-entity laser-controls="hand:right" raycaster="objects:.hit;far:35" line="color:#e3aa48"></a-entity>
+      </a-entity>
+    </a-scene></template>
+    <div class="world-help">Seret pandangan; W A S D untuk berjalan. Klik papan nama rumah atau pilih stesen untuk masuk ke serambi. Headset: gunakan penunjuk alat kawalan.</div>
+  </div>
+</main>
+<section class="library" aria-labelledby="libraryTitle">
+  <div class="library-head"><div><div class="eyebrow">Jejak suara saya</div><h2 id="libraryTitle">Galeri rakaman</h2></div><span class="muted" id="summary">Belum ada rakaman.</span></div>
+  <p class="muted">Rakaman disimpan pada pelayar dan peranti ini mengikut kod murid. Muat turun fail untuk menyimpan salinan sendiri. Rakaman tidak dihantar ke pelayan.</p>
+  <div class="cards" id="recordings"></div>
+  <details class="materials">
+    <summary>Tetapan bahan syair — pada peranti ini</summary>
+    <p class="muted">Teks awal ialah contoh asli untuk demonstrasi. Guru boleh menggantikannya dengan syair pengajaran dan rakaman irama yang betul. Bahan yang dipilih di sini digunakan pada peranti ini.</p>
+    <label for="poemEdit">Teks syair (sehingga 8 baris)</label><textarea id="poemEdit" maxlength="1200"></textarea>
+    <label for="exampleFile">Audio contoh guru (MP3, WAV atau audio lain; maksimum 15 MB)</label><input type="file" id="exampleFile" accept="audio/*">
+    <button id="savePoem">Simpan teks syair</button>
+  </details>
+</section>
+<div class="page-foot">Kampung Syair VR · Gunakan pautan HTTPS untuk rakaman mikrofon. Mod VR bergantung pada sokongan headset dan pelayar.</div>
+<audio id="exampleAudio" preload="metadata"></audio><audio id="replayAudio"></audio>
+<script>
+'use strict';
+// Selepas guru memuat naik contoh.mp3 ke repositori yang sama, isikan 'contoh.mp3' di bawah.
+// Ini membolehkan semua murid mendengar audio tersebut pada peranti masing-masing.
+const AUDIO_CONTOH = '';
+const TEKS_SYAIR = 'Dengarlah adik sebuah pesanan,\nRajin belajar jadikan amalan,\nIlmu dituntut menjadi pedoman,\nBudi yang baik jadi ingatan.';
+const STATIONS = {
+  dengar:{name:'Wakaf Dengar',number:'01',x:-11,z:-4,color:'#d6a441',roof:'#866146',hint:'Dengar contoh daripada guru sambil membaca teks syair.'},
+  latihan:{name:'Anjung Latihan',number:'02',x:0,z:-14,color:'#4b9a8e',roof:'#6d5743',hint:'Cuba satu baris atau satu rangkap. Rakam, dengar semula dan cuba lagi.'},
+  pentas:{name:'Pentas Syair',number:'03',x:11,z:-4,color:'#c56b59',roof:'#8e5545',hint:'Tarik nafas, kemudian persembahkan syair penuh dengan yakin.'}
+};
+const $ = id => document.getElementById(id);
+let station='dengar', poem=TEKS_SYAIR, entries=[], db=null, stream=null, recorder=null;
+let starting=false, stopping=false, run=0, began=0, recordingMeta=null, ticker=null, limit=null;
+let statusText=$('status').textContent, sampleURL='', replayURL='', storageWarning=false;
+const galleryURLs=[], boards=[];
+const clock = seconds => `${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
+const active = () => !!recorder && recorder.state !== 'inactive';
+function code(){return $('pupil').value.trim().replace(/[^A-Za-z0-9_-]/g,'').slice(0,20)||'M01';}
+function message(text){statusText=text;$('status').textContent=text;drawBoards();}
+function part(store,action,value){
+  return new Promise((resolve,reject)=>{
+    if(!db){reject(new Error('Storan pelayar tidak tersedia'));return;}
+    const tx=db.transaction(store,action==='getAll'||action==='get'?'readonly':'readwrite');
+    const request=tx.objectStore(store)[action](...(value===undefined?[]:[value]));
+    let result;request.onsuccess=()=>{result=request.result;};
+    tx.oncomplete=()=>resolve(result);tx.onerror=()=>reject(tx.error||request.error);tx.onabort=()=>reject(tx.error||new Error('Transaksi dibatalkan'));
+  });
+}
+async function openStorage(){
+  try{
+    db=await new Promise((resolve,reject)=>{const r=indexedDB.open('kampung-syair-v1',1);r.onupgradeneeded=()=>{r.result.createObjectStore('rakaman',{keyPath:'id'});r.result.createObjectStore('bahan',{keyPath:'key'});};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);r.onblocked=()=>reject(new Error('Storan dikunci'));});
+    entries=(await part('rakaman','getAll')).map(r=>({...r,persisted:true})).sort((a,b)=>b.created-a.created);
+    const text=await part('bahan','get','teks');if(text?.value)poem=text.value;
+    const audio=await part('bahan','get','audio');if(audio?.blob){setExample(audio.blob);$('sampleName').textContent=audio.name;}
+  }catch(e){storageWarning=true;message('Storan pelayar tidak tersedia. Rakaman boleh didengar dan dimuat turun dalam sesi ini.');}
+  $('poemEdit').value=poem;renderPoem();renderGallery();update();
+}
+function renderPoem(){$('poem').textContent=poem;drawBoards();}
+function go(key){
+  if(starting||stopping||active()){message('Hentikan rakaman dahulu sebelum menukar stesen.');return;}
+  station=key;stopAudio();const s=STATIONS[key];
+  $('stationTitle').textContent=s.name;$('instruction').textContent=s.hint;$('worldBadge').textContent=s.number+' / '+s.name;
+  document.querySelectorAll('[data-go]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.go===key)));
+  if($('rig')){$('rig').setAttribute('position',{x:s.x,y:1.1,z:s.z+2.4});$('view').setAttribute('position','0 1.65 0');$('view').setAttribute('rotation','0 0 0');const look=$('view').components?.['look-controls'];if(look){look.yawObject.rotation.y=0;look.pitchObject.rotation.x=0;}}
+  message(s.hint);update();
+}
+function stopAudio(){
+  $('exampleAudio').pause();$('replayAudio').pause();
+  document.querySelectorAll('#recordings audio').forEach(a=>a.pause());
+}
+function setExample(blob){if(sampleURL)URL.revokeObjectURL(sampleURL);sampleURL=URL.createObjectURL(blob);$('exampleAudio').src=sampleURL;}
+async function playExample(){
+  if(active()||starting||stopping){message('Hentikan rakaman dahulu untuk mendengar audio.');return;}
+  stopAudio();const audio=$('exampleAudio');
+  if(!audio.getAttribute('src')){message('Audio contoh belum ditambah. Guru boleh memilih fail di Tetapan bahan pada paparan biasa.');return;}
+  try{audio.currentTime=0;await audio.play();message('Dengar irama dan sebutan contoh guru.');}catch(e){message('Audio tidak dapat dimainkan. Semak fail audio contoh atau cuba tekan Dengar contoh sekali lagi.');}
+}
+async function microphone(){
+  if(stream?.getAudioTracks().some(t=>t.readyState==='live'))return stream;
+  if(!window.isSecureContext)throw new Error('HTTPS');
+  if(!navigator.mediaDevices?.getUserMedia||!window.MediaRecorder)throw new Error('UNSUPPORTED');
+  stream=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+  stream.getAudioTracks().forEach(t=>t.addEventListener('ended',()=>{if(active())stopRecording();update();}));
+  update();return stream;
+}
+function releaseMic(){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;update();}
+function micError(e){
+  if(e.name==='NotAllowedError'||e.name==='PermissionDeniedError')return 'Mikrofon belum dibenarkan. Semak kebenaran mikrofon di sebelah alamat laman, kemudian cuba lagi.';
+  if(e.name==='NotFoundError')return 'Mikrofon tidak ditemui. Sambungkan atau aktifkan mikrofon peranti.';
+  if(e.message==='HTTPS')return 'Buka pautan HTTPS selepas GitHub Pages diaktifkan untuk menggunakan mikrofon.';
+  if(e.message==='UNSUPPORTED')return 'Rakaman tidak disokong oleh pelayar ini. Cuba pelayar atau peranti yang menyokong MediaRecorder.';
+  return 'Mikrofon tidak dapat digunakan. Tutup aplikasi lain yang menggunakan mikrofon dan cuba lagi.';
+}
+async function startRecording(){
+  if(starting||stopping||active()||station==='dengar')return;
+  stopAudio();starting=true;const token=++run;const selected=station;
+  recordingMeta={student:code(),station:selected,created:Date.now()};update();message('Benarkan mikrofon jika diminta...');
+  try{
+    const input=await microphone();if(token!==run){releaseMic();return;}
+    for(let n=3;n>0;n--){if(token!==run)return;message('Bersedia. Rakaman bermula dalam '+n+'...');await new Promise(r=>setTimeout(r,1000));}
+    if(token!==run)return;
+    const mime=['audio/webm;codecs=opus','audio/mp4','audio/webm','audio/ogg;codecs=opus'].find(t=>MediaRecorder.isTypeSupported(t));
+    const capture=new MediaRecorder(input,mime?{mimeType:mime}:undefined);const chunks=[];let audioError=false;
+    capture.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};
+    capture.onerror=()=>{audioError=true;message('Rakaman terganggu. Semak dan dengar semula hasil rakaman.');if(capture.state!=='inactive')stopRecording();};
+    capture.onstop=async()=>{
+      const seconds=Math.max(.1,(Date.now()-began)/1000);clearInterval(ticker);clearTimeout(limit);starting=false;stopping=true;update();
+      const meta=recordingMeta;const blob=new Blob(chunks,{type:capture.mimeType||chunks[0]?.type||'audio/webm'});
+      if(blob.size){
+        const item={...meta,id:window.crypto?.randomUUID?.()||String(Date.now())+Math.random(),duration:seconds,blob};
+        try{await part('rakaman','put',item);item.persisted=true;}catch(e){item.persisted=false;storageWarning=true;}
+        entries.unshift(item);renderGallery();
+        message(item.persisted?(audioError?'Rakaman terganggu tetapi hasilnya disimpan. Dengar dan semak semula.':'Rakaman disimpan pada peranti ini. Dengar semula atau muat turun melalui galeri.'):'Rakaman tersedia untuk sesi ini. Muat turun melalui galeri kerana storan pelayar tidak tersedia.');
+      }else message('Tiada audio berjaya dirakam. Semak mikrofon dan cuba semula.');
+      recorder=null;stopping=false;update();
+    };
+    recorder=capture;began=Date.now();capture.start(250);starting=false;update();message('Sedang merakam. Tekan Henti apabila selesai.');
+    ticker=setInterval(()=>{const t=(Date.now()-began)/1000;$('timer').textContent=clock(t);drawBoards();},500);
+    limit=setTimeout(()=>{if(active())stopRecording();},180000);
+  }catch(e){if(token===run){starting=false;recorder=null;message(micError(e));update();}}
+}
+function stopRecording(){
+  if(starting){++run;starting=false;releaseMic();message('Persediaan rakaman dibatalkan.');update();return;}
+  if(!active()||stopping)return;
+  stopping=true;clearInterval(ticker);clearTimeout(limit);message('Menyimpan rakaman...');update();recorder.stop();
+}
+async function playLatest(){
+  if(active()||starting||stopping){message('Hentikan rakaman dahulu untuk mendengar semula.');return;}
+  const r=entries.find(e=>e.student===code()&&e.station===station);
+  if(!r){message('Belum ada rakaman untuk kod murid dan stesen ini.');return;}
+  stopAudio();if(replayURL)URL.revokeObjectURL(replayURL);replayURL=URL.createObjectURL(r.blob);$('replayAudio').src=replayURL;
+  try{await $('replayAudio').play();message('Sedang memainkan rakaman terbaru anda.');}catch(e){message('Main semula tidak tersedia. Cuba pemain audio dalam galeri.');}
+}
+function update(){
+  const busy=starting||stopping||active();const micOn=!!stream?.getAudioTracks().some(t=>t.readyState==='live');
+  $('record').disabled=station==='dengar'||busy;$('stop').disabled=(!starting&&!active())||stopping;
+  $('latest').disabled=busy||!entries.some(e=>e.student===code()&&e.station===station);
+  $('pupil').disabled=busy;$('mic').disabled=busy;$('samplePlay').disabled=busy;
+  $('exampleFile').disabled=busy;$('savePoem').disabled=busy;$('poemEdit').disabled=busy;
+  document.querySelectorAll('[data-go]').forEach(b=>b.disabled=busy);
+  $('recLine').classList.toggle('recording',active());
+  $('recState').replaceChildren();const dot=document.createElement('i');dot.className='dot';$('recState').append(dot,document.createTextNode(active()?'Sedang merakam':starting?'Bersedia...':stopping?'Menyimpan...':'Belum merakam'));
+  $('mic').textContent=micOn?'Matikan mikrofon':'Benarkan mikrofon';
+  $('micInfo').textContent=micOn?'Mikrofon aktif. Rakaman bermula selepas anda menekan Rakam. Had satu rakaman: 3 minit.':'Untuk VR, benarkan mikrofon dahulu sebelum memakai headset. Had satu rakaman: 3 minit.';
+  drawBoards();
+}
+function renderGallery(){
+  stopAudio();
+  galleryURLs.splice(0).forEach(url=>URL.revokeObjectURL(url));$('recordings').replaceChildren();
+  const mine=entries.filter(r=>r.student===code());$('summary').textContent=mine.length+' rakaman untuk '+code();
+  if(!mine.length){const empty=document.createElement('div');empty.className='empty';empty.textContent='Suara pertama anda bermula di Anjung Latihan.';$('recordings').append(empty);}
+  mine.forEach((r,index)=>{
+    const card=document.createElement('article');card.className='record-card';const title=document.createElement('h3');title.textContent=(STATIONS[r.station]?.name||'Rakaman')+' · '+r.student;
+    const info=document.createElement('p');info.className='muted';info.textContent=new Date(r.created).toLocaleString('ms-MY')+' · '+clock(r.duration)+(r.persisted?' · Disimpan':' · Sesi ini sahaja');
+    const audio=document.createElement('audio');audio.controls=true;const url=URL.createObjectURL(r.blob);galleryURLs.push(url);audio.src=url;audio.preload='metadata';audio.setAttribute('aria-label','Rakaman '+r.student+' '+(index+1));
+    audio.addEventListener('play',()=>{if(active()||starting||stopping){audio.pause();message('Hentikan rakaman dahulu untuk mendengar audio.');return;}$('exampleAudio').pause();$('replayAudio').pause();document.querySelectorAll('#recordings audio').forEach(other=>{if(other!==audio)other.pause();});});
+    const foot=document.createElement('footer');const download=document.createElement('a');download.className='download';download.href=url;download.textContent='Muat turun';
+    const ext=r.blob.type.includes('mp4')?'m4a':r.blob.type.includes('ogg')?'ogg':r.blob.type.includes('wav')?'wav':'webm';
+    download.download=r.student+'_'+r.station+'_'+new Date(r.created).toISOString().replace(/[:.]/g,'-')+'.'+ext;
+    const del=document.createElement('button');del.textContent='Padam';del.addEventListener('click',async()=>{
+      if(active()||starting||stopping){message('Hentikan rakaman dahulu.');return;}
+      if(!confirm('Padam rakaman ini daripada peranti ini? Muat turun dahulu jika mahu menyimpan salinan.'))return;
+      if(r.persisted){try{await part('rakaman','delete',r.id);}catch(e){message('Rakaman tidak dapat dipadam daripada storan. Cuba lagi.');return;}}
+      entries=entries.filter(e=>e.id!==r.id);renderGallery();update();message('Rakaman telah dipadam daripada peranti ini.');
+    });
+    foot.append(download,del);card.append(title,info,audio,foot);$('recordings').append(card);
+  });
+}
+function entity(tag,attributes,parent){const e=document.createElement(tag);for(const[k,v]of Object.entries(attributes))e.setAttribute(k,v);parent.append(e);return e;}
+function wrapText(ctx,text,x,y,maxWidth,lineHeight,maxLines=2){let line='',row=0;for(const word of text.split(/\s+/)){const next=line+word+' ';if(ctx.measureText(next).width>maxWidth&&line){ctx.fillText(line,x,y+row*lineHeight);line=word+' ';row++;if(row>=maxLines)return;}else line=next;}if(row<maxLines)ctx.fillText(line,x,y+row*lineHeight);}
+function drawBoards(){
+  boards.forEach(b=>{
+    const c=b.canvas.getContext('2d'),s=STATIONS[b.key];c.fillStyle='#153e3b';c.fillRect(0,0,1100,700);
+    c.fillStyle=s.color;c.fillRect(0,0,1100,15);c.fillStyle='#f9f4e7';c.font='bold 48px sans-serif';c.fillText(s.number+'  '+s.name,55,85);
+    c.font='28px sans-serif';c.fillStyle='#d6e8dc';c.fillText('KAMPUNG SYAIR  /  '+code(),55,130);
+    const lines=poem.split('\n').slice(0,8),compact=lines.length>4;c.font=(compact?'24':'31')+'px sans-serif';c.fillStyle='#fff9e7';lines.forEach((line,i)=>c.fillText(line,55,(compact?165:190)+i*(compact?26:48),990));
+    c.font='25px sans-serif';c.fillStyle='#d6e8dc';
+    const text=active()?'MERAKAM  '+clock((Date.now()-began)/1000)+'  /  Tekan Henti apabila selesai':statusText;
+    wrapText(c,text,55,390,990,32,2);
+    b.buttons.forEach(btn=>{c.fillStyle=btn.action==='record'?'#b6383e':btn.action.startsWith('go:')?'#2c5751':'#f5edda';c.fillRect(btn.x,btn.y,btn.w,btn.h);c.fillStyle=btn.action==='record'||btn.action.startsWith('go:')?'#fff':'#153e3b';c.font='bold 28px sans-serif';c.textAlign='center';c.fillText(btn.label,btn.x+btn.w/2,btn.y+btn.h/2+10);c.textAlign='left';});
+    const mesh=b.plane.getObject3D?.('mesh');if(mesh?.material?.map)mesh.material.map.needsUpdate=true;
+  });
+}
+function worldAction(action,key){
+  if(action.startsWith('go:')){go(action.slice(3));return;}
+  if(action==='stop'){stopRecording();return;}
+  if(action==='stopAudio'){stopAudio();message('Audio dihentikan.');return;}
+  if(station!==key){if(starting||stopping||active()){message('Hentikan rakaman dahulu.');return;}go(key);}
+  if(action==='sample')playExample();if(action==='record')startRecording();if(action==='latest')playLatest();
+}
+// Rumah asal yang dibina daripada geometri ringan, tanpa aset berbayar.
+function malayHouseParts(key){
+  const pieces=[];
+  const box=(x,y,z,w,h,d,m='wood',r=[0,0,0])=>pieces.push({kind:'box',p:[x,y,z],s:[w,h,d],r,m});
+  box(0,1,-.85,8.4,.2,7);
+  [-4,4].forEach(x=>[-4.1,-.85,2.55].forEach(z=>box(x,2.15,z,.25,4.3,.25,'dark')));
+  [-4.1,-.85,2.55].forEach(z=>box(0,.79,z,8.45,.2,.18,'dark'));
+  box(0,4.23,-.8,8.7,.19,7.1,'dark');
+  box(0,5.45,1.2,9.6,.14,4.52,'roof',[27.7,0,0]);
+  box(0,5.45,-2.8,9.6,.14,4.52,'roof',[-27.7,0,0]);
+  box(0,6.54,-.8,9.95,.16,.23,'dark');
+  [3.25,-4.85].forEach(z=>box(0,4.32,z,9.8,.18,.13,'trim'));
+  [-4.28,4.28].forEach(x=>{
+    pieces.push({kind:'triangle',v:[x,4.25,-4.8,x,6.5,-.8,x,4.25,3.2],m:'gable'});
+    [0,1,2].forEach(i=>box(x,4.6+i*.5,-.8,.09,.075,6.1-i*1.85,'trim'));
+  });
+  // Bilik belakang dan serambi terbuka di hadapan.
+  box(0,2.69,-4.15,7.85,3.15,.11);
+  [-4.04,4.04].forEach(x=>box(x,2.69,-2.52,.11,3.15,3.35));
+  if(key!=='pentas'){
+    [-2.3,2.3].forEach(x=>box(x,2.69,-.85,3.25,3.15,.11));
+    box(0,3.97,-.85,1.35,.6,.13,'trim');
+    [-.72,.72].forEach(x=>box(x,2.44,-.76,.11,2.7,.12,'trim'));
+    box(-.94,2.43,-1.13,1.12,2.65,.075,'dark',[0,-48,0]);
+    [-2.3,2.3].forEach(x=>{
+      box(x,2.98,-.76,1.1,1.17,.05,'window');
+      [-.62,.62].forEach(dx=>box(x+dx,2.98,-.69,.12,1.42,.12,'trim'));
+      [-.67,.67].forEach(dy=>box(x,2.98+dy,-.69,1.35,.12,.12,'trim'));
+      [-.25,.25].forEach(dx=>box(x+dx,2.98,-.67,.05,1.15,.06,'trim'));
+      [-.87,.87].forEach(dx=>box(x+dx,2.98,-.62,.38,1.36,.075,'accent',[0,dx<0?-22:22,0]));
+    });
+  }else{
+    box(0,1.3,-2.6,6.4,.4,2.5,'dark');
+    [-3.35,3.35].forEach(x=>box(x,2.9,-.87,.65,2.6,.07,'accent'));
+    box(0,4.04,-.87,7.3,.42,.08,'accent');
+    box(0,3.9,-.76,6.6,.055,.05,'trim');
+  }
+  // Susur serambi; bukaan di tengah menuju ke tangga.
+  [-2.73,2.73].forEach(x=>{
+    [1.4,2.05].forEach(y=>box(x,y,2.57,2.85,.11,.12,'trim'));
+    [-1,-.5,0,.5,1].forEach(dx=>box(x+dx,1.73,2.57,.065,.65,.07,'dark'));
+  });
+  [-4.08,4.08].forEach(x=>{
+    [1.4,2.05].forEach(y=>box(x,y,.9,.12,.11,3.35,'trim'));
+    [-.2,.5,1.2,1.9].forEach(z=>box(x,1.73,z,.07,.65,.065,'dark'));
+  });
+  for(let i=0;i<4;i++)box(0,.22*(i+1)-.06,4-i*.42,2.15,.12,.53,'wood');
+  [-1.07,1.07].forEach(x=>{
+    box(x,.51,3.36,.13,.16,1.95,'dark',[31,0,0]);
+    box(x,1.38,3.36,.09,.09,2,'trim',[31,0,0]);
+    box(x,.72,4.02,.1,1.38,.1,'dark');
+  });
+  // Bangku kayu dan tanglung kecil pada serambi.
+  box(-3.15,1.55,.6,.68,.13,1.7,'trim');
+  [-.05,1.25].forEach(z=>box(-3.15,1.3,z,.46,.4,.13,'dark'));
+  box(-3.48,1.95,.6,.1,.75,1.7,'wood');
+  box(2.98,3.22,1.55,.29,.43,.29,'lamp');
+  box(2.98,3.52,1.55,.035,.25,.035,'dark');
+  box(2.98,3.45,1.55,.37,.07,.37,'dark');
+  return pieces;
+}
+let woodCanvas=null,roofCanvas=null;
+function houseTextureCanvas(type){
+  const c=document.createElement('canvas');c.width=c.height=512;const ctx=c.getContext('2d');
+  if(type==='wood'){
+    ctx.fillStyle='#b99163';ctx.fillRect(0,0,512,512);
+    for(let i=0;i<165;i++){const y=(i*71)%512;ctx.strokeStyle=i%3?'#805e3850':'#e9ca995c';ctx.lineWidth=i%6===0?2:1;ctx.beginPath();ctx.moveTo(0,y);ctx.bezierCurveTo(120,y+Math.sin(i)*8,350,y-Math.cos(i)*6,512,y);ctx.stroke();}
+    for(let y=0;y<512;y+=64){ctx.fillStyle='#5e442955';ctx.fillRect(0,y,512,3);}
+  }else{
+    ctx.fillStyle='#e1d1b6';ctx.fillRect(0,0,512,512);
+    for(let y=0;y<512;y+=64){for(let x=-32;x<512;x+=64){ctx.fillStyle=(x+y)%3?'#c5b393':'#d4c29f';ctx.fillRect(x+(y%128?32:0),y,61,60);}ctx.fillStyle='#74664d';ctx.fillRect(0,y+60,512,4);}
+  }
+  return c;
+}
+function buildMalayHouse(el,key){
+  const T=AFRAME.THREE,s=STATIONS[key];woodCanvas??=houseTextureCanvas('wood');roofCanvas??=houseTextureCanvas('roof');
+  const wood=new T.CanvasTexture(woodCanvas),roof=new T.CanvasTexture(roofCanvas);
+  wood.colorSpace=roof.colorSpace=T.SRGBColorSpace;wood.wrapS=wood.wrapT=T.RepeatWrapping;wood.repeat.set(2,2);
+  roof.wrapS=roof.wrapT=T.RepeatWrapping;roof.repeat.set(3,2);
+  const material=(color,map=null)=>new T.MeshStandardMaterial({color,map,roughness:.95,metalness:0});
+  const mats={wood:material('#e6c8a4',wood),dark:material('#84644a',wood),trim:material('#edc88e',wood),gable:material('#ba936a',wood),roof:material(s.roof,roof),accent:material(s.color),window:material('#203b36'),lamp:new T.MeshBasicMaterial({color:'#ffdc83'})};
+  mats.gable.side=T.DoubleSide;
+  const group=new T.Group(),buckets=new Map(),parts=malayHouseParts(key);group.name='Rumah-Melayu-'+key;
+  parts.forEach(p=>{
+    if(p.kind==='box'){if(!buckets.has(p.m))buckets.set(p.m,[]);buckets.get(p.m).push(p);}
+    else{const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(p.v,3));geometry.computeVertexNormals();group.add(new T.Mesh(geometry,mats[p.m]));}
+  });
+  const geometry=new T.BoxGeometry(1,1,1),dummy=new T.Object3D();
+  buckets.forEach((items,m)=>{
+    const mesh=new T.InstancedMesh(geometry,mats[m],items.length);
+    items.forEach((p,i)=>{dummy.position.set(...p.p);dummy.scale.set(...p.s);dummy.rotation.set(...p.r.map(a=>a*Math.PI/180));dummy.updateMatrix();mesh.setMatrixAt(i,dummy.matrix);});
+    mesh.instanceMatrix.needsUpdate=true;mesh.computeBoundingBox?.();mesh.computeBoundingSphere?.();group.add(mesh);
+  });
+  el.setObject3D('rumah',group);
+}
+function villageFloorAt(x,z){
+  for(const s of Object.values(STATIONS)){
+    const dx=Math.abs(x-s.x),dz=z-s.z;
+    if(dx<4.2&&dz> -4.35&&dz<2.65)return s.number==='03'&&dx<3.2&&dz> -3.85&&dz< -1.35?1.5:1.1;
+    if(dx<1.2&&dz>=2.65&&dz<4.5)return 1.1*(4.5-dz)/1.85;
+  }return 0;
+}
+function registerMalayComponents(){
+  if(!AFRAME.components['rumah-melayu'])AFRAME.registerComponent('rumah-melayu',{schema:{default:'dengar'},init(){buildMalayHouse(this.el,this.data);}});
+  if(!AFRAME.components['village-floor'])AFRAME.registerComponent('village-floor',{
+    init(){this.point=new AFRAME.THREE.Vector3();this.cameraEl=null;},
+    tick(){this.cameraEl??=$('view');if(!this.cameraEl?.object3D)return;this.cameraEl.object3D.getWorldPosition(this.point);this.el.object3D.position.y=villageFloorAt(this.point.x,this.point.z);}
+  });
+}
+function houseSign(parent,key){
+  const s=STATIONS[key],canvas=document.createElement('canvas');canvas.id='sign-'+key;canvas.width=1024;canvas.height=192;canvas.hidden=true;document.body.append(canvas);
+  const c=canvas.getContext('2d');c.fillStyle='#203f36';c.fillRect(0,0,1024,192);c.strokeStyle='#dfbd7d';c.lineWidth=8;c.strokeRect(10,10,1004,172);c.fillStyle='#f8e6bd';c.font='bold 78px Georgia,serif';c.textAlign='center';c.fillText(s.name,512,115,960);
+  const sign=entity('a-plane',{position:'0 3.75 2.75',width:3.8,height:.71,class:'hit',material:`src:#${canvas.id};shader:flat;side:double`},parent);
+  sign.addEventListener('click',()=>go(key));
+}
+function buildWorld(){
+  let available=false;try{const test=document.createElement('canvas'),gl=test.getContext('webgl2')||test.getContext('webgl');available=!!gl;gl?.getExtension('WEBGL_lose_context')?.loseContext();}catch(e){}
+  if(!window.AFRAME||!available){$('flatMap').hidden=false;return;}
+  registerMalayComponents();$('sceneMount').append($('worldMarkup').content.cloneNode(true));
+  const world=$('village');
+  Object.entries(STATIONS).forEach(([key,s])=>{
+    const hut=entity('a-entity',{position:`${s.x} 0 ${s.z}`,'rumah-melayu':key},world);houseSign(hut,key);
+    const canvas=document.createElement('canvas');canvas.width=1100;canvas.height=700;canvas.id='board-'+key;canvas.hidden=true;document.body.append(canvas);
+    const panel=entity('a-entity',{position:'0 2.45 -.3',scale:'.65 .65 .65'},hut);
+    entity('a-box',{position:'0 0 -.06',width:5.65,height:3.65,depth:.1,color:'#614b35'},panel);
+    const plane=entity('a-plane',{width:5.5,height:3.5,material:`src:#${canvas.id};shader:flat;side:double`},panel);
+    const actions=key==='dengar'?[['Main contoh','sample'],['Henti audio','stopAudio'],['Ulang contoh','sample']]:[['Rakam','record'],['Henti','stop'],['Dengar terbaru','latest']];
+    const buttons=[...actions.map(([label,action],i)=>({label,action,x:55+i*335,y:465,w:310,h:85})),...[['Wakaf','dengar'],['Latihan','latihan'],['Pentas','pentas']].map(([label,target],i)=>({label,action:'go:'+target,x:55+i*335,y:585,w:310,h:70}))];
+    buttons.forEach(btn=>{
+      const hit=entity('a-plane',{position:`${(btn.x+btn.w/2)/200-2.75} ${1.75-(btn.y+btn.h/2)/200} .025`,width:btn.w/200,height:btn.h/200,class:'hit',material:'shader:flat;transparent:true;opacity:0.001;color:#ffffff'},panel);
+      hit.addEventListener('click',()=>worldAction(btn.action,key));hit.addEventListener('mouseenter',()=>hit.setAttribute('material','opacity',.13));hit.addEventListener('mouseleave',()=>hit.setAttribute('material','opacity',.001));
+    });
+    boards.push({key,canvas,plane,buttons});
+  });
+  const positions=[[-18,-8],[-17,5],[-18,-18],[-7,-23],[7,-23],[18,-17],[19,5],[19,-6],[-21,0],[0,-26]];
+  positions.forEach(([x,z],i)=>{const tree=entity('a-entity',{position:`${x} 0 ${z}`},world);entity('a-cylinder',{position:'0 1.3 0',radius:.18,height:2.6,color:'#7e6244'},tree);entity('a-sphere',{position:'0 3.3 0',radius:1.5,'segments-width':7,'segments-height':5,color:i%2?'#4e9474':'#3e7b63'},tree);});
+  drawBoards();$('world').addEventListener('loaded',drawBoards);
+}
+$('pupil').addEventListener('change',()=>{$('pupil').value=code();try{localStorage.setItem('syair-pupil',code());}catch(e){}renderGallery();update();});
+$('pupil').addEventListener('input',()=>{try{localStorage.setItem('syair-pupil',code());}catch(e){}renderGallery();update();});
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+$('record').addEventListener('click',startRecording);$('stop').addEventListener('click',stopRecording);$('latest').addEventListener('click',playLatest);
+$('samplePlay').addEventListener('click',playExample);$('audioStop').addEventListener('click',()=>{stopAudio();message('Audio dihentikan.');});
+$('mic').addEventListener('click',async()=>{if(stream?.getAudioTracks().some(t=>t.readyState==='live')){releaseMic();message('Mikrofon dimatikan.');return;}try{$('mic').disabled=true;await microphone();message('Mikrofon dibenarkan. Pilih Anjung Latihan atau Pentas Syair untuk merakam.');}catch(e){message(micError(e));}finally{update();}});
+$('savePoem').addEventListener('click',async()=>{
+  const text=$('poemEdit').value.trim();if(!text){message('Masukkan teks syair terlebih dahulu.');return;}
+  if(text.split('\n').length>8){message('Gunakan sehingga 8 baris untuk versi ini.');return;}
+  poem=text;renderPoem();try{await part('bahan','put',{key:'teks',value:text});message('Teks syair disimpan pada peranti ini.');}catch(e){message('Teks digunakan untuk sesi ini. Storan pelayar tidak tersedia.');}
+});
+$('exampleFile').addEventListener('change',async e=>{
+  const file=e.target.files[0];if(!file)return;if(file.size>15*1024*1024){message('Pilih audio yang lebih kecil daripada 15 MB.');e.target.value='';return;}
+  if(!file.type.startsWith('audio/')&&!/\.(mp3|wav|m4a|ogg|webm|aac|flac)$/i.test(file.name)){message('Pilih fail audio yang sah.');return;}
+  stopAudio();setExample(file);$('sampleName').textContent=file.name;
+  try{await part('bahan','put',{key:'audio',name:file.name,blob:file});message('Audio contoh disimpan pada peranti ini. Tekan Dengar contoh.');}catch(e){message('Audio contoh tersedia untuk sesi ini sahaja.');}
+});
+$('exampleAudio').addEventListener('ended',()=>message('Contoh selesai. Pilih Anjung Latihan untuk mencuba sendiri.'));
+window.addEventListener('beforeunload',e=>{if(active()||starting||stopping){e.preventDefault();e.returnValue='';}});
+window.addEventListener('pagehide',()=>{if(recorder&&recorder.state!=='inactive')recorder.stop();if(stream)stream.getTracks().forEach(t=>t.stop());});
+try{$('pupil').value=localStorage.getItem('syair-pupil')||'M01';}catch(e){}
+if(AUDIO_CONTOH){$('exampleAudio').src=AUDIO_CONTOH;$('sampleName').textContent='Audio contoh guru';}
+renderPoem();buildWorld();openStorage();
+</script>
+</body>
+</html>
 
